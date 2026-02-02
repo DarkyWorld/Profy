@@ -1,4 +1,7 @@
-using Profy.Client.Services
+using Profy.Client.Services;
+using System.Net.Http;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Profy.Client.ViewModels;
 
@@ -14,7 +17,7 @@ public class EnterViewModel : ViewModelBase
         get;
         set => SetField(ref field, value);
     }
-    private string _httpClient;
+    private HttpClient _httpClient;
     private string _serverUrl;
     private AuthService _authService;
 
@@ -32,15 +35,15 @@ public class EnterViewModel : ViewModelBase
 
         // Инициализация команд
         EnterCommand = new LambdaCommand(
-            async(_) => Task.Run(Enter)
+            async(_) => Task.Run(EnterAsync),
             _ => !string.IsNullOrEmpty(UserEnterData.Login)&&
             !string.IsNullOrEmpty(UserEnterData.Password)
         );
-        RegistrationCommand= new LambdaCommand(async (_) => Task.Run(Registration))
+        RegistrationCommand = new LambdaCommand(async (_) => Task.Run(Registration));
     }
     private async void EnterAsync()
     {
-        if (_authService.EnterAsync(UserEnterData))
+        if (await _authService.EnterAsync(UserEnterData))
         {
             var newWindow = new MainWindow(UserEnterData);
             newWindow.Show();
@@ -48,12 +51,12 @@ public class EnterViewModel : ViewModelBase
         }
         else 
         {
-            MessageBox.Show("Неверный логин или пароль")
+            MessageBox.Show("Неверный логин или пароль");
         }
     }
-    private void Registration()
+    private async void Registration()
     {
-        if (_authService.RegistrationAsync(UserData,UserEnterData))
+        if (await _authService.RegistrationAsync(UserData,UserEnterData))
         {
             var newWindow = new MainWindow(UserEnterData);
             newWindow.Show();
@@ -75,10 +78,7 @@ public class EnterViewModel : ViewModelBase
                     _serverUrl = tempConfig;
                 }
             }
-            catch (JsonException ex)
-            {
-                Debug.WriteLine($"Ошибка чтения конфига: {ex.Message}");
-            }
+            catch { }
         }
         else
         {
