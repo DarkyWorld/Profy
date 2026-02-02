@@ -1,12 +1,147 @@
-﻿<Window x:Class="Profy.Client.MainWindow"
+﻿﻿<Window x:Class="Profy.Client.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Profy.Client"
+        xmlns:vm="clr-namespace:Profy.Client.ViewModels"
+        xmlns:models="clr-namespace:Profy.Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Авторизация / Регистрация"
+        Height="520" Width="420"
+        WindowStartupLocation="CenterScreen"
+        Background="#F3F5F7">
 
+    <Window.DataContext>
+        <vm:EnterViewModel>
+            <vm:EnterViewModel.UserEnterData>
+            </vm:EnterViewModel.UserEnterData>
+
+            <vm:EnterViewModel.UserData>
+            </vm:EnterViewModel.UserData>
+        </vm:EnterViewModel>
+    </Window.DataContext>
+
+    <Grid Margin="16">
+        <Border Background="White" CornerRadius="14" Padding="16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="0,0,0,12">
+                    <TextBlock Text="Вход или регистрация"
+                               Opacity="0.65"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <TabControl Grid.Row="1" Background="Transparent" BorderThickness="0">
+                    <TabItem Header="Вход">
+                        <Grid Margin="6">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>  
+                                <RowDefinition Height="Auto"/>  
+                                <RowDefinition Height="Auto"/>  
+                                <RowDefinition Height="Auto"/>  
+                                <RowDefinition Height="Auto"/>  
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Логин" Margin="0,0,0,6"/>
+                            <TextBox Grid.Row="1"
+                                     Height="36"
+                                     Padding="10,6"
+                                     Text="{Binding UserEnterData.Login, UpdateSourceTrigger=PropertyChanged}"
+                                     BorderThickness="1"
+                                     BorderBrush="#D6D9DD"
+                                     Background="#FBFBFC"/>
+
+                            <TextBlock Grid.Row="2" Text="Пароль" Margin="0,12,0,6"/>
+                            <TextBox Grid.Row="3"
+                                     Height="36"
+                                     Padding="10,6"
+                                     Text="{Binding UserEnterData.Password, UpdateSourceTrigger=PropertyChanged}"
+                                     BorderThickness="1"
+                                     BorderBrush="#D6D9DD"
+                                     Background="#FBFBFC"/>
+
+                            <Button Grid.Row="4"
+                                    Content="Войти"
+                                    Height="40"
+                                    Margin="0,18,0,0"
+                                    Command="{Binding EnterCommand}"
+                                    Background="#0B67C2"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Регистрация">
+                        <Grid Margin="6">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>  
+                                <RowDefinition Height="Auto"/>  
+                                <RowDefinition Height="Auto"/>  
+                                <RowDefinition Height="Auto"/>  
+                                <RowDefinition Height="Auto"/>  
+                                <RowDefinition Height="Auto"/>  
+                                <RowDefinition Height="Auto"/>  
+                                <RowDefinition Height="Auto"/>  
+                                <RowDefinition Height="Auto"/>  
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Логин" Margin="0,0,0,6"/>
+                            <TextBox Grid.Row="1"
+                                     Height="36"
+                                     Padding="10,6"
+                                     Text="{Binding UserEnterData.Login, UpdateSourceTrigger=PropertyChanged}"
+                                     BorderThickness="1"
+                                     BorderBrush="#D6D9DD"
+                                     Background="#FBFBFC"/>
+
+                            <TextBlock Grid.Row="2" Text="Пароль" Margin="0,12,0,6"/>
+                            <TextBox Grid.Row="3"
+                                     Height="36"
+                                     Padding="10,6"
+                                     Text="{Binding UserEnterData.Password, UpdateSourceTrigger=PropertyChanged}"
+                                     BorderThickness="1"
+                                     BorderBrush="#D6D9DD"
+                                     Background="#FBFBFC"/>
+
+                            <TextBlock Grid.Row="4" Text="Имя" Margin="0,12,0,6"/>
+                            <TextBox Grid.Row="5"
+                                     Height="36"
+                                     Padding="10,6"
+                                     Text="{Binding UserData.FirstName, UpdateSourceTrigger=PropertyChanged}"
+                                     BorderThickness="1"
+                                     BorderBrush="#D6D9DD"
+                                     Background="#FBFBFC"/>
+
+                            <TextBlock Grid.Row="6" Text="Фамилия" Margin="0,12,0,6"/>
+                            <TextBox Grid.Row="7"
+                                     Height="36"
+                                     Padding="10,6"
+                                     Text="{Binding UserData.LastName, UpdateSourceTrigger=PropertyChanged}"
+                                     BorderThickness="1"
+                                     BorderBrush="#D6D9DD"
+                                     Background="#FBFBFC"/>
+
+                            <Button Grid.Row="8"
+                                    Content="Зарегистрироваться"
+                                    Height="40"
+                                    Margin="0,18,0,0"
+                                    Command="{Binding RegistrationCommand}"
+                                    Background="#16A34A"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    BorderThickness="0"
+                                    Cursor="Hand"/>
+                        </Grid>
+                    </TabItem>
+
+                </TabControl>
+            </Grid>
+        </Border>
     </Grid>
 </Window>
