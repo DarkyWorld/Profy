@@ -1,4 +1,4 @@
-using Profy.Client.Services;
+п»їusing Profy.Client.Services;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Input;
@@ -7,21 +7,22 @@ namespace Profy.Client.ViewModels;
 
 public class EnterViewModel : ViewModelBase
 {
-    public UserEnterData UserEnterData
+    private UsersDataLogin usersDataLogin;
+    public UsersDataLogin UserEnterData
     {
-        get;
-        set => SetField(ref field, value);
+        get => usersDataLogin;
+        set => SetField(ref usersDataLogin, value);
     }
-    public UserData UserData
+    private UsersData userData;
+    public UsersData UserData
     {
-        get;
-        set => SetField(ref field, value);
+        get => userData;
+        set => SetField(ref userData, value);
     }
     private HttpClient _httpClient;
     private string _serverUrl;
     private AuthService _authService;
 
-    // Команды
     public ICommand RegistrationCommand { get; }
     public ICommand EnterCommand { get; }
 
@@ -33,9 +34,8 @@ public class EnterViewModel : ViewModelBase
         GetServerUrl();
         _authService = new AuthService(_httpClient, _serverUrl);
 
-        // Инициализация команд
         EnterCommand = new LambdaCommand(
-            async(_) => Task.Run(EnterAsync),
+            async(_) => EnterAsync(),
             _ => !string.IsNullOrEmpty(UserEnterData.Login)&&
             !string.IsNullOrEmpty(UserEnterData.Password)
         );
@@ -47,11 +47,11 @@ public class EnterViewModel : ViewModelBase
         {
             var newWindow = new MainWindow(UserEnterData);
             newWindow.Show();
-            this.Close();
+            CloseWindow();
         }
         else 
         {
-            MessageBox.Show("Неверный логин или пароль");
+            MessageBox.Show("РќРµРІРµСЂРЅС‹Р№ Р»РѕРіРёРЅ РёР»Рё РїР°СЂРѕР»СЊ");
         }
     }
     private async void Registration()
@@ -60,7 +60,7 @@ public class EnterViewModel : ViewModelBase
         {
             var newWindow = new MainWindow(UserEnterData);
             newWindow.Show();
-            this.Close();
+            CloseWindow();
         }
     }
     private void GetServerUrl()
@@ -85,6 +85,13 @@ public class EnterViewModel : ViewModelBase
             var json = System.Text.Json.JsonSerializer.Serialize(_serverUrl);
             System.IO.File.WriteAllText(configPath, json);
         }
+    }
+    private void CloseWindow()
+    {
+        var window = System.Windows.Application.Current.Windows
+            .OfType<System.Windows.Window>()
+            .FirstOrDefault(w => w.DataContext == this);
+        window?.Close();
     }
 }
 

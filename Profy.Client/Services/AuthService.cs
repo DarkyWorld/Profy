@@ -1,4 +1,4 @@
-using System.Net.Http;
+п»їusing System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
@@ -15,15 +15,15 @@ public class AuthService
         _serverUrl = serverUrl;
     }
 
-    // Метод входа
-    public async Task<bool> EnterAsync(UserEnterData userEnterData)
+    //РњРµС‚РѕРґ РІС…РѕРґР°
+    public async Task<bool> EnterAsync(UsersDataLogin userEnterData)
     {
         try
         {
             var json = JsonSerializer.Serialize(userEnterData);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync($"{_serverUrl}/api/auth/login", content);
+            var response = await _httpClient.PostAsync($"{_serverUrl}/auth/login", content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -38,8 +38,8 @@ public class AuthService
         }
     }
 
-    // Метод регистрации
-    public async Task<bool> RegistrationAsync(UserData userData, UserEnterData userEnterData)
+    // РњРµС‚РѕРґ СЂРµРіРёСЃС‚СЂР°С†РёРё
+    public async Task<bool> RegistrationAsync(UsersData userData, UsersDataLogin userEnterData)
     {
         try
         {
@@ -55,14 +55,12 @@ public class AuthService
 
             if (response.IsSuccessStatusCode)
             {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                MessageBox.Show("Регистрация успешна");
                 return true;
             }
             else
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
-                MessageBox.Show($"Ошибка регистрации: {response.StatusCode} - {errorContent}");
+                MessageBox.Show($"РћС€РёР±РєР° СЂРµРіРёСЃС‚СЂР°С†РёРё: {response.StatusCode} - {errorContent}");
                 return false;
             }
         }
