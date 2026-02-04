@@ -44,10 +44,10 @@ public class AuthService
         try
         {
 
-            var json = JsonSerializer.Serialize(new
+            var json = JsonSerializer.Serialize(new RegistrationRequest
             {
-                userData,
-                authData
+                User = userData,
+                AuthData = authData
             });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
