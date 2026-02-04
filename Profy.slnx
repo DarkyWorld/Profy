@@ -1,3 +1,5 @@
 <Solution>
   <Project Path="Profy.Client/Profy.Client.csproj" />
+  <Project Path="Profy.Server\Profy.Server.csproj" Type="Classic C#" />
+  <Project Path="SharedModels\SharedModels.csproj" Type="Classic C#" />
 </Solution>
