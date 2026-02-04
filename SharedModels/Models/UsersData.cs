@@ -16,5 +16,8 @@ public class UserData
     public int Experience { get; set; }
     public string Specialization { get; set; } = null!;
     public Role Role { get; set; } = Role.User;
+
+    public int AuthId { get; set; }
 }
+
 
