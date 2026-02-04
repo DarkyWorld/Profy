@@ -1,5 +1,10 @@
 namespace SharedModels.Models;
 
+public enum Role
+{ 
+    User,
+    Admin
+}
 public class UsersData
 {
     public int Id { get; set; }
@@ -13,5 +18,5 @@ public class UsersData
 
     public string Login { get; set; }
     public string Password { get; set; }
-    public string Role { get; set; } = "USER";
+    public Role Role { get; set; } = Role.User;
 }
