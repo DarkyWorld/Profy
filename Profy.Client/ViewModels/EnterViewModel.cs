@@ -7,14 +7,14 @@ namespace Profy.Client.ViewModels;
 
 public class EnterViewModel : ViewModelBase
 {
-    private UsersDataLogin usersDataLogin;
-    public UsersDataLogin UserEnterData
+    private AuthData authData;
+    public AuthData AuthData
     {
-        get => usersDataLogin;
-        set => SetField(ref usersDataLogin, value);
+        get => authData;
+        set => SetField(ref authData, value);
     }
-    private UsersData userData;
-    public UsersData UserData
+    private UserData userData;
+    public UserData UserData
     {
         get => userData;
         set => SetField(ref userData, value);
@@ -36,16 +36,16 @@ public class EnterViewModel : ViewModelBase
 
         EnterCommand = new LambdaCommand(
             async(_) => EnterAsync(),
-            _ => !string.IsNullOrEmpty(UserEnterData.Login)&&
-            !string.IsNullOrEmpty(UserEnterData.Password)
+            _ => !string.IsNullOrEmpty(AuthData.Login)&&
+            !string.IsNullOrEmpty(AuthData.Password)
         );
         RegistrationCommand = new LambdaCommand(async (_) => Task.Run(Registration));
     }
     private async void EnterAsync()
     {
-        if (await _authService.EnterAsync(UserEnterData))
+        if (await _authService.EnterAsync(AuthData))
         {
-            var newWindow = new MainWindow(UserEnterData);
+            var newWindow = new MainWindow(AuthData, _serverUrl);
             newWindow.Show();
             CloseWindow();
         }
@@ -58,7 +58,7 @@ public class EnterViewModel : ViewModelBase
     {
         if (await _authService.RegistrationAsync(UserData,UserEnterData))
         {
-            var newWindow = new MainWindow(UserEnterData);
+            var newWindow = new MainWindow(UserEnterData, _serverUrl);
             newWindow.Show();
             CloseWindow();
         }

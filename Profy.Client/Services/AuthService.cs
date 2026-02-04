@@ -16,11 +16,11 @@ public class AuthService
     }
 
     //Метод входа
-    public async Task<bool> EnterAsync(UsersDataLogin userEnterData)
+    public async Task<bool> EnterAsync(AuthData authData)
     {
         try
         {
-            var json = JsonSerializer.Serialize(userEnterData);
+            var json = JsonSerializer.Serialize(authData);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync($"{_serverUrl}/auth/login", content);
@@ -39,7 +39,7 @@ public class AuthService
     }
 
     // Метод регистрации
-    public async Task<bool> RegistrationAsync(UsersData userData, UsersDataLogin userEnterData)
+    public async Task<bool> RegistrationAsync(UserData userData, AuthData authData)
     {
         try
         {
@@ -47,7 +47,7 @@ public class AuthService
             var json = JsonSerializer.Serialize(new
             {
                 userData,
-                userEnterData
+                authData
             });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
