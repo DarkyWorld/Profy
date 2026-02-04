@@ -14,22 +14,9 @@ var nextId = 1;
 app.MapPost("/auth/register", (UsersData user) =>
 {   
     user.Id = nextId++;
-    user.Role = "USER";
+    user.Role = Role.User;
     users.Add(user);
     return Results.Ok(user);
-});
-
-app.MapGet("/search", (string? query) =>
-{
-    if (string.IsNullOrWhiteSpace(query))
-        return Results.Ok(users);
-
-    var result = users.Where(u =>
-        u.FirstName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-        u.Specialization.Contains(query, StringComparison.OrdinalIgnoreCase)
-    );
-
-    return Results.Ok(result);
 });
 
 app.MapPut("/users/{id}", (int id, UsersData updatedUser) =>
