@@ -5,7 +5,7 @@ public enum Role
     User,
     Admin
 }
-public class UsersData
+public class UserData
 {
     public int Id { get; set; }
 
@@ -15,8 +15,6 @@ public class UsersData
 
     public int Experience { get; set; }
     public string Specialization { get; set; } = null!;
-
-    public string Login { get; set; }
-    public string Password { get; set; }
     public Role Role { get; set; } = Role.User;
 }
+
