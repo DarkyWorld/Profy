@@ -25,11 +25,13 @@ app.MapPut("/users/{id}/data", async (int id, UserData updatedUser, DataContext 
     if (user == null)
         return Results.NotFound();
 
+    user.LastName = updatedUser.LastName;
     user.FirstName = updatedUser.FirstName;
+    user.MiddleName = updatedUser.MiddleName;
     user.Experience = updatedUser.Experience;
     user.Specialization = updatedUser.Specialization;
 
-    return Results.Ok();
+return Results.Ok();
 });
 app.MapPut("/users/{id}/auth", async (int id, AuthData updatedAuth, DataContext context) =>
 {
