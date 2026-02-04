@@ -7,17 +7,20 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<DataContext>(o => o.UseSqlite(connectionString));
 var app = builder.Build();
 
-app.MapPost("/auth/register", async (UserData user, AuthData authdata, DataContext context) =>
+app.MapPost("/auth/register", async (RegistrationRequest request, DataContext context) =>
 {
-    if(user == null) return Results.BadRequest();
+    if (request?.User == null || request.AuthData == null)
+        return Results.BadRequest("User or AuthData is null");
 
-    if (context.AuthData.FirstOrDefaultAsync(a => a.Login == authdata.Login)!=null)
+    if (context.AuthData.FirstOrDefaultAsync(a => a.Login == request.AuthData.Login)!=null)
         return Results.BadRequest();
 
-    await context.Users.AddAsync(user);
+    await context.Users.AddAsync(request.User);
     await context.SaveChangesAsync();
-    return Results.Ok(user);
+    return Results.Ok();
 });
+
+
 
 app.MapPut("/users/{id}/data", async (int id, UserData updatedUser, DataContext context) =>
 {
