@@ -46,8 +46,13 @@ public class AuthService
 
             var json = JsonSerializer.Serialize(new RegistrationRequest
             {
+<<<<<<< HEAD
                 User = userData,
                 AuthData = authData
+=======
+                userData,
+                authData
+>>>>>>> origin/feature/Task_6
             });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
